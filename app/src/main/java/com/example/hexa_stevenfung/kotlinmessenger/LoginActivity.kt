@@ -13,27 +13,31 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
 
         login_button_login.setOnClickListener {
-            val email = email_edittext_login.text.toString()
-            val password = password_edittext_login.text.toString()
-
-            FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener {
-                    if (!it.isSuccessful) return@addOnCompleteListener
-                    Log.d("Main", "Successfully login user with uid: ${it.result?.user?.uid}")
-                    Toast.makeText(
-                        this,
-                        "Successfully login user with uid: ${it.result?.user?.uid}",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-                .addOnFailureListener {
-                    Log.d("Main", "Falied to login user account: ${it.message}")
-                    Toast.makeText(this, "Falied to login user account: ${it.message}", Toast.LENGTH_SHORT).show()
-                }
+            performLogin()
         }
 
         back_to_register_textview.setOnClickListener {
             finish()
         }
+    }
+
+    private fun performLogin() {
+        val email = email_edittext_login.text.toString()
+        val password = password_edittext_login.text.toString()
+
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener {
+                if (!it.isSuccessful) return@addOnCompleteListener
+                Log.d("Main", "Successfully login user with uid: ${it.result?.user?.uid}")
+                Toast.makeText(
+                    this,
+                    "Successfully login user with uid: ${it.result?.user?.uid}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            .addOnFailureListener {
+                Log.d("Main", "Falied to login user account: ${it.message}")
+                Toast.makeText(this, "Falied to login user account: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
     }
 }
