@@ -7,7 +7,7 @@
         android:layout_height="match_parent"
         tools:context=".MainActivity" android:background="@android:color/holo_green_light">
 
-    <EditText android:background="@android:color/white"
+    <EditText android:background="@drawable/rounded_edittext_register_login"
               android:layout_height="50dp"
               android:layout_width="0dp"
               app:layout_constraintTop_toTopOf="parent"
@@ -24,7 +24,7 @@
               android:layout_marginEnd="32dp"
               android:id="@+id/username_edittext_register"/>
 
-    <EditText android:background="@android:color/white"
+    <EditText android:background="@drawable/rounded_edittext_register_login"
               android:layout_height="50dp"
               android:layout_width="0dp"
               app:layout_constraintStart_toStartOf="@+id/username_edittext_register"
@@ -37,7 +37,7 @@
               android:id="@+id/email_edittext_register"
               app:layout_constraintTop_toBottomOf="@+id/username_edittext_register"/>
 
-    <EditText android:background="@android:color/white"
+    <EditText android:background="@drawable/rounded_edittext_register_login"
               android:layout_height="50dp"
               android:layout_width="0dp"
               app:layout_constraintStart_toStartOf="@+id/email_edittext_register"
@@ -57,7 +57,10 @@
             android:layout_marginTop="8dp"
             android:id="@+id/register_button_register"
             app:layout_constraintTop_toBottomOf="@+id/password_edittext_register"
-            android:text="Register"/>
+            android:text="Register"
+            android:background="@drawable/rounded_button"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"/>
 
     <TextView android:layout_height="wrap_content"
               android:layout_width="wrap_content"
