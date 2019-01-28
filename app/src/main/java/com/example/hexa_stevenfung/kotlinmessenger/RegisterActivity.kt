@@ -17,6 +17,10 @@ import java.util.*
 
 class RegisterActivity : AppCompatActivity() {
 
+    companion object {
+        val TAG = "RegisterActivity"
+    }
+
     var selectedPhotoUri: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,7 +47,7 @@ class RegisterActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == 0 && resultCode == Activity.RESULT_OK && data != null) {
-            Log.d("RegisterAcitivty", "Photo was selected")
+            Log.d(TAG, "Photo was selected")
 
             selectedPhotoUri = data.data
             val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, selectedPhotoUri)
@@ -72,14 +76,14 @@ class RegisterActivity : AppCompatActivity() {
             .addOnCompleteListener {
                 if (!it.isSuccessful) return@addOnCompleteListener
 
-                Log.d("Main", "Successfully created user with uid: ${it.result?.user?.uid}")
+                Log.d(TAG, "Successfully created user with uid: ${it.result?.user?.uid}")
                 Toast.makeText(this, "Successfully created user with uid: ${it.result?.user?.uid}", Toast.LENGTH_SHORT)
                     .show()
 
                 uploadImageToFirebaseStorage()
             }
             .addOnFailureListener {
-                Log.d("Main", "Falied to create user: ${it.message}")
+                Log.d(TAG, "Falied to create user: ${it.message}")
                 Toast.makeText(this, "Falied to create user: ${it.message}", Toast.LENGTH_SHORT).show()
             }
     }
@@ -92,16 +96,16 @@ class RegisterActivity : AppCompatActivity() {
 
         ref.putFile(selectedPhotoUri!!)
             .addOnSuccessListener {
-                Log.d("RegisterActivity", "Successfully uploaded image: ${it.metadata?.path}")
+                Log.d(TAG, "Successfully uploaded image: ${it.metadata?.path}")
 
                 ref.downloadUrl.addOnSuccessListener {
-                    Log.d("RegisterActivity", "File location: $it")
+                    Log.d(TAG, "File location: $it")
 
                     saveUserToFirebaseDatabase(it.toString())
                 }
             }
             .addOnFailureListener {
-
+                Log.d(TAG, "Failed to upload image to storage: ${it.message}")
             }
     }
 
@@ -113,7 +117,10 @@ class RegisterActivity : AppCompatActivity() {
         val user = User(uid, username_edittext_register.text.toString(), profileImageUrl)
         ref.setValue(user)
             .addOnSuccessListener {
-                Log.d("RegisterActivity", "Finally we saved the user to Firbase Database")
+                Log.d(TAG, "Finally we saved the user to Firbase Database")
+            }
+            .addOnFailureListener {
+                Log.d(TAG, "Failed to set value to database: ${it.message}")
             }
     }
 }
